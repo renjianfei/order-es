@@ -1,0 +1,390 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>1.5.2.RELEASE</version>
+        <relativePath/> <!-- lookup parent from repository -->
+    </parent>
+
+    <groupId>com.hualala.order</groupId>
+    <artifactId>order-es</artifactId>
+    <packaging>pom</packaging>
+    <version>1.0-SNAPSHOT</version>
+    <modules>
+        <module>order-es-grpc-idl</module>
+        <module>order-es-grpc-service</module>
+        <module>order-es-crud</module>
+    </modules>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <java.version>1.8</java.version>
+        <springboot.vertion>1.5.2.RELEASE</springboot.vertion>
+        <jackson.version>2.8.3</jackson.version>
+        <hualala.grpc.version>1.3.0</hualala.grpc.version>
+        <brave.version>3.16.0</brave.version>
+        <zipkin-reporter.version>0.6.9</zipkin-reporter.version>
+    </properties>
+
+    <dependencyManagement>
+
+        <dependencies>
+            <!-- Compile -->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter</artifactId>
+                <version>${springboot.vertion}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-data-elasticsearch</artifactId>
+                <version>${springboot.vertion}</version>
+            </dependency>
+
+            <!-- Test -->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-test</artifactId>
+                <version>${springboot.vertion}</version>
+                <scope>test</scope>
+            </dependency>
+
+
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-amqp</artifactId>
+                <version>${springboot.vertion}</version>
+            </dependency>
+
+
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-log4j2</artifactId>
+                <version>${springboot.vertion}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-actuator</artifactId>
+                <version>${springboot.vertion}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.springframework.boot</groupId>
+                        <artifactId>spring-boot-starter-logging</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
+
+
+            <!-- gRPC support -->
+            <dependency>
+                <groupId>com.hualala.grpc</groupId>
+                <artifactId>grpc-all</artifactId>
+                <version>${hualala.grpc.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>io.zipkin.brave</groupId>
+                        <artifactId>brave-core</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
+            <dependency>
+                <groupId>com.hualala.grpc</groupId>
+                <artifactId>grpc-spring-boot-starter</artifactId>
+                <version>1.1.5-SNAPSHOT</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>io.zipkin.brave</groupId>
+                        <artifactId>brave-core</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
+            <dependency>
+                <groupId>com.hualala.grpc</groupId>
+                <artifactId>grpc-client</artifactId>
+                <version>1.1.3-SNAPSHOT</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>io.zipkin.brave</groupId>
+                        <artifactId>brave-core</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
+            <dependency>
+                <groupId>com.hualala.grpc</groupId>
+                <artifactId>grpc-object-convertor</artifactId>
+                <version>1.0.1-SNAPSHOT</version>
+            </dependency>
+
+            <!-- proto java message bean to java pojo bean  -->
+            <!--<dependency>-->
+            <!--<groupId>com.github.BAData</groupId>-->
+            <!--<artifactId>protobuf-converter</artifactId>-->
+            <!--<version>1.1.2</version>-->
+            <!--</dependency>-->
+            <!-- proto java message bean to json/xml -->
+            <!-- https://mvnrepository.com/artifact/com.googlecode.protobuf-java-format/protobuf-java-format -->
+            <dependency>
+                <groupId>com.googlecode.protobuf-java-format</groupId>
+                <artifactId>protobuf-java-format</artifactId>
+                <version>1.4</version>
+            </dependency>
+
+
+            <!-- jedis -->
+            <dependency>
+                <groupId>redis.clients</groupId>
+                <artifactId>jedis</artifactId>
+                <version>2.8.1</version>
+            </dependency>
+
+
+            <!-- JDK 1.8+ compatible -->
+            <dependency>
+                <groupId>org.redisson</groupId>
+                <artifactId>redisson</artifactId>
+                <version>3.3.2</version>
+            </dependency>
+
+
+
+            <!-- jackson -->
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-core</artifactId>
+                <version>${jackson.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-annotations</artifactId>
+                <version>${jackson.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-databind</artifactId>
+                <version>${jackson.version}</version>
+            </dependency>
+
+            <!-- https://mvnrepository.com/artifact/org.projectlombok/lombok -->
+            <dependency>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+                <version>1.16.10</version>
+            </dependency>
+
+
+            <!-- brave -->
+            <dependency>
+                <groupId>io.zipkin.brave</groupId>
+                <artifactId>brave-core-spring</artifactId>
+                <version>${brave.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>io.zipkin.brave</groupId>
+                <artifactId>brave-grpc</artifactId>
+                <version>${brave.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>io.grpc</groupId>
+                        <artifactId>grpc-all</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
+            <dependency>
+                <groupId>io.zipkin.brave</groupId>
+                <artifactId>brave-mysql</artifactId>
+                <version>${brave.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>io.zipkin.reporter</groupId>
+                <artifactId>zipkin-sender-okhttp3</artifactId>
+                <version>${zipkin-reporter.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>io.zipkin.reporter</groupId>
+                <artifactId>zipkin-sender-kafka08</artifactId>
+                <version>${zipkin-reporter.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.zipkin.brave</groupId>
+                <artifactId>brave-spring-web-servlet-interceptor</artifactId>
+                <version>${brave.version}</version>
+            </dependency>
+
+
+
+
+            <!-- utils -->
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-lang3</artifactId>
+                <version>3.4</version>
+            </dependency>
+
+            <dependency>
+                <groupId>commons-io</groupId>
+                <artifactId>commons-io</artifactId>
+                <version>2.3</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.velocity</groupId>
+                <artifactId>velocity</artifactId>
+                <version>1.7</version>
+            </dependency>
+
+            <dependency>
+                <groupId>joda-time</groupId>
+                <artifactId>joda-time</artifactId>
+                <version>2.9.9</version>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/commons-codec/commons-codec -->
+            <dependency>
+                <groupId>commons-codec</groupId>
+                <artifactId>commons-codec</artifactId>
+                <version>1.10</version>
+            </dependency>
+
+            <!-- Runtime -->
+            <dependency>
+                <groupId>net.java.dev.jna</groupId>
+                <artifactId>jna</artifactId>
+                <version>4.4.0</version>
+                <scope>runtime</scope>
+            </dependency>
+
+        </dependencies>
+
+    </dependencyManagement>
+
+    <build>
+        <finalName>order-es</finalName>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.1</version>
+                <configuration>
+                    <target>1.8</target>
+                    <source>1.8</source>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <skip>true</skip>
+                </configuration>
+            </plugin>
+            <!--<plugin>-->
+                <!--<groupId>org.springframework.boot</groupId>-->
+                <!--<artifactId>spring-boot-maven-plugin</artifactId>-->
+                <!--<version>1.4.0.RELEASE</version>-->
+            <!--</plugin>-->
+        </plugins>
+    </build>
+
+    <repositories>
+        <repository>
+            <id>gozap</id>
+            <name>gozap Repository</name>
+            <url>http://repo.gozap.com/repos/content/groups/public</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+        <repository>
+            <id>gozap-snapshots</id>
+            <name>gozap snapshots</name>
+            <url>http://repo.gozap.com/repos/content/repositories/snapshots</url>
+            <snapshots>
+                <enabled>true</enabled>
+                <updatePolicy>always</updatePolicy>
+            </snapshots>
+        </repository>
+        <!--<repository>-->
+        <!--<id>jitpack.io</id>-->
+        <!--<url>https://jitpack.io</url>-->
+        <!--</repository>-->
+        <repository>
+            <id>public</id>
+            <name>Public Repositories</name>
+            <url>http://repo.hualala.com/nexus/content/groups/Public/</url>
+        </repository>
+        <repository>
+            <id>nexus-snapshots</id>
+            <name>Nexus Snapshot Repository</name>
+            <url>http://repo.hualala.com/nexus/content/repositories/snapshots/</url>
+        </repository>
+
+        <repository>
+            <id>spring-libs-snapshot</id>
+            <name>Spring Snapshot Repository</name>
+            <url>http://repo.spring.io/libs-snapshot</url>
+        </repository>
+
+    </repositories>
+
+    <pluginRepositories>
+        <pluginRepository>
+            <id>gozap</id>
+            <name>gozap Repository</name>
+            <url>http://repo.gozap.com/repos/content/groups/public</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </pluginRepository>
+        <pluginRepository>
+            <id>gozap-snapshots</id>
+            <name>gozap snapshots</name>
+            <url>http://repo.gozap.com/repos/content/repositories/snapshots</url>
+        </pluginRepository>
+    </pluginRepositories>
+
+    <!--<distributionManagement>-->
+    <!--<repository>-->
+    <!--<id>gozap</id>-->
+    <!--<name>gozap构件发布版仓库</name>-->
+    <!--<url>http://repo.gozap.com/repos/content/repositories/gozap</url>-->
+    <!--</repository>-->
+    <!--<snapshotRepository>-->
+    <!--<id>gozap_snapshots</id>-->
+    <!--<name>gozap构件快照版仓库</name>-->
+    <!--<url>http://repo.gozap.com/repos/content/repositories/snapshots</url>-->
+    <!--</snapshotRepository>-->
+    <!--</distributionManagement>-->
+
+    <distributionManagement>
+        <repository>
+            <id>nexus-releases</id>
+            <name>Nexus Release Repository</name>
+            <url>http://repo.hualala.com/nexus/content/repositories/releases/</url>
+        </repository>
+        <snapshotRepository>
+            <id>nexus-snapshots</id>
+            <name>Nexus Snapshot Repository</name>
+            <url>http://repo.hualala.com/nexus/content/repositories/snapshots/</url>
+        </snapshotRepository>
+    </distributionManagement>
+
+
+
+
+
+</project>
